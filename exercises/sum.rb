@@ -20,8 +20,13 @@
 #   total = total + 70   # the value of "total" is now 102
 
 def sum(list)
-  # This is your job. :)
+  total = list.shift
+  list.each do |x|
+    total += x
+  end
+  return total
 end
+# I chose to use shift because I would like sum([]) to be nil, not 0.
 
 if __FILE__ == $PROGRAM_NAME
   p sum([1]) == 1
@@ -31,6 +36,7 @@ if __FILE__ == $PROGRAM_NAME
   p sum([0, 10, 0, 20]) == 30
   p sum([-111, -111, -111]) == -333
   p sum([11, 22, 33]) == 66
+  p sum([]) == nil
 end
 
 # Remember: these are rumble strips, not a driving instructor.

@@ -9,8 +9,7 @@
 # that there is at least one.
 
 def word_count(string)
-  # Hint: You'll want to use String#split
-  # See: http://www.ruby-doc.org/core-2.1.2/String.html#method-i-split
+  return string.split.length
 end
 
 if __FILE__ == $PROGRAM_NAME
@@ -25,4 +24,7 @@ if __FILE__ == $PROGRAM_NAME
   # It's probably worth having a few more sanity checks.
   # What are some input strings that might be tricky to handle?
   # How about where the answer to "How many words?" is less clear-cut?
+  p word_count("a whole    lotof  weird    spaces...") == 5
+  p word_count("How many words?") == 3
+  p word_count(nil)
 end

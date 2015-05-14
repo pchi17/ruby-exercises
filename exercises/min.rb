@@ -13,14 +13,13 @@
 # This is going to be very similar to max, so don't be afraid if
 # these two methods look almost identical
 def min(list)
-  ____ = ____
-  ____.each do |____|
-    if ____
-      ____ = ____
+  min_so_far = list.shift
+  list.each do |item|
+    if item < min_so_far
+      min_so_far = item
     end
   end
-
-  return ____
+  return min_so_far
 end
 
 if __FILE__ == $PROGRAM_NAME

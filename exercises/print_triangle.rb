@@ -15,15 +15,14 @@
 # Conceptually, it prints out a row of "count" *'s.  Run it yourself to
 # see how it works.  Experiment with different inputs.
 def print_line(count)
-  (1..count).each do |i|
-    print "*"         # This prints a single "*"
-  end
-
-  print "\n"  # This forces the output to the next line, like hitting "return"
+  count.times { print "*" }
+  print "\n"
 end
 
 def print_triangle(height)
-  # You have to fill in the details here.
+  (1..height).each do |i|
+    print_line(i)
+  end
 end
 
 # There are no rumble strips this time.  It's up to you to decide whether

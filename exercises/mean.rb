@@ -22,11 +22,22 @@
 require_relative "./sum"
 
 def mean(list)
-  total = sum(list) # This is the "sum" method from our sum.rb file
-  # result = ____   # Given the list's sum, how can we calculate the average?
+  len = list.length.to_f # this must come before the execution of sum() bc I used list.shift in sum.rb
+  if len == 0
+    return nil # for an empty array, set the mean to be nil.
+  else
+    total = sum(list) # This is the "sum" method from our sum.rb file
+    return total / len
+  end
 end
 
 if __FILE__ == $PROGRAM_NAME
-  # I'd advise putting some sanity checks here.
-  # How else will you be sure your code does what you think it does?
+  p mean([1]) == 1
+  p mean([0]) == 0
+  p mean([-1]) == -1
+  p mean([1, -1]) == 0
+  p mean([0, 10, 0, 20]) == 7.5
+  p mean([-111, -111, -111]) == -111
+  p mean([11, 22, 33]) == 22
+  p mean([]) == nil
 end
