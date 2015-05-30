@@ -27,7 +27,17 @@
 # implementation, your method may or may not be able to handle large integer
 # inputs.  Don't worry if it can't.
 
+# a dumb implementation without using Bonet's formula or Matrix form
 def fib(n)
+  return 0 if n == 0
+  return 1 if n == 1
+  a, b, c = 0, 1, nil
+  2.upto(n) do
+    c = a + b
+    a = b
+    b = c
+  end
+  return c
 end
 
 if __FILE__ == $PROGRAM_NAME

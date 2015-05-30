@@ -41,6 +41,12 @@
 # to be almost entirely white.  So this isn't just a "toy problem.""
 
 def run_length_encode(string)
+  result = ''
+  string.scan(/(\w)(\1*)/).each do |x|
+    result += (x[1].length + 1).to_s
+    result += x[0]
+  end
+  return result
 end
 
 # If you want to iterate over each character in a string, look at

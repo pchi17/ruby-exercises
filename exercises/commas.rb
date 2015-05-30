@@ -20,12 +20,31 @@
 # insert the commas?  Which comma would you insert first?
 
 def commas(num)
+  neg = num < 0 ? '-' : ''
+  string = num.abs.to_s
+  result = ''
+  1.upto(string.length) do |i|
+    result.prepend(string[-i])
+    result.prepend(',') if i % 3 == 0 && i != string.length
+  end
+  result.prepend(neg)
+  return result
 end
 
 if __FILE__ == $PROGRAM_NAME
   # What are the common cases?  What are the corner cases?
   # Your sanity checks should look like
   #   p commas(input) == ...expected return value...
+  p commas(123)     == "123"
+  p commas(1234)    == "1,234"
+  p commas(12345)   == "12,345"
+  p commas(123456)  == "123,456"
+  p commas(1234567) == "1,234,567"
+  p commas(-123)     == "-123"
+  p commas(-1234)    == "-1,234"
+  p commas(-12345)   == "-12,345"
+  p commas(-123456)  == "-123,456"
+  p commas(-1234567) == "-1,234,567"
 end
 
 # Hint #1

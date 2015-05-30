@@ -15,13 +15,16 @@
 # pig_latin("happy") == "appyhay"
 
 def pig_latin(word)
+  until word[0] =~ /[aeiou]/
+    word = word[1..-1] + word[0]
+  end
+  return word + 'ay'
 end
 
 if __FILE__ == $PROGRAM_NAME
   p pig_latin("happy") == "appyhay"
   p pig_latin("duck")  == "uckday"
   p pig_latin("glove") == "oveglay" # Notice what happened to "gl"
-
   p pig_latin("egg")   == "eggay"
   p pig_latin("inbox") == "inboxay"
   p pig_latin("eight") == "eightay"

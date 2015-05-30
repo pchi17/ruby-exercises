@@ -18,12 +18,18 @@
 #
 # "ROT13" is called a Caesar cipher because Julius Caesar used such letter
 # replacement schemes to "encrypt" his communication.
-
+require './rot_n.rb'
 def rot13(string)
+  rot_n(string, 13)
 end
 
 if __FILE__ == $PROGRAM_NAME
   # See http://www.rot-n.com/ to generate test inputs and outputs
   p rot13("The Quick Brown Fox Jumps Over The Lazy Dog") ==
     "Gur Dhvpx Oebja Sbk Whzcf Bire Gur Ynml Qbt"
+  p rot13('ant') == 'nag'
+  p rot13('envy') == 'rail'
+  p rot13('fur') == 'she'
+  p rot13('barf') == 'ones'
+  p rot13('balk') == 'onyx'
 end

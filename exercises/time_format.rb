@@ -13,6 +13,33 @@
 # This should support weeks, days, hours, minutes, and seconds.
 
 def time_format(seconds)
+  result = []
+  secs = seconds % 60
+  result << "#{secs}s"
+  seconds -= secs
+  unless seconds == 0
+    seconds /= 60
+    mins = seconds % 60
+    result << "#{mins}m"
+    seconds -= mins
+    unless seconds == 0
+      seconds /= 60
+      hrs = seconds % 24
+      result << "#{hrs}h"
+      seconds -= hrs
+      unless seconds == 0
+        seconds /= 24
+        days = seconds % 7
+        result << "#{days}d"
+        seconds -= days
+        unless seconds == 0
+          seconds /= 7
+          result << "#{seconds}w"
+        end
+      end
+    end
+  end
+  return result.reverse.join(' ')
 end
 
 if __FILE__ == $PROGRAM_NAME

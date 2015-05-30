@@ -20,13 +20,9 @@
 #   total = total + 70   # the value of "total" is now 102
 
 def sum(list)
-  total = list.shift
-  list.each do |x|
-    total += x
-  end
-  return total
+  list.inject { |sum, x| sum + x }
 end
-# I chose to use shift because I would like sum([]) to be nil, not 0.
+
 
 if __FILE__ == $PROGRAM_NAME
   p sum([1]) == 1

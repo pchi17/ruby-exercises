@@ -14,10 +14,17 @@
 #
 
 def factorial(n)
+  fac = 1
+  (2..n).each do |x|
+    fac *= x
+  end
+  return fac
 end
 
 if __FILE__ == $PROGRAM_NAME
-  # What are the common cases?  What are the corner cases?
-  # Your sanity checks should look like
-  #   p factorial(input) == ...expected return value...
+  p factorial(0) == 1
+  p factorial(1) == 1
+  p factorial(2) == 2
+  p factorial(5) == 120
+  p factorial(10) == 3628800
 end

@@ -27,11 +27,30 @@
 #   etc.
 
 def bottles(start_number)
+  def words(n)
+    return n == 1 ? '1 bottle of beer' : "#{n} bottles of beer"
+  end
+  start_number.downto(1) do |i|
+    k = i -1
+    k = 'no more' if k == 0
+    puts "#{self.words(i)} on the wall, #{self.words(i)}."
+    print 'take one down, pass it around, '
+    puts "#{self.words(k)} on the wall!"
+  end
 end
 
 if __FILE__ == $PROGRAM_NAME
   # What *should* this print?
   bottles(5)
+  puts ''
+  bottles(0)
+  puts ''
+  bottles(1)
+  puts ''
+  bottles(2)
+  puts ''
+  bottles(10)
+  puts ''
 end
 
 # Hint #1:

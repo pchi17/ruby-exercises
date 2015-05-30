@@ -10,6 +10,7 @@
 #  find_even([10,10,10,11,11,11]) == [10,10,10]
 
 def find_even(array)
+  array.select { |x| x.even? }
 end
 
 # Note #1
@@ -43,14 +44,18 @@ if __FILE__ == $PROGRAM_NAME
 
   # If the input is the empty array,
   #  find_even should return the empty array
-
+  p find_even([]) == []
   # If the input array contains all EVEN numbers,
   #   find_even should return the input array
   p find_even([2, 4, 6, 8, 10]) == [2, 4, 6, 8, 10]
-
   # If the input array contains all ODD numbers,
   #   find_even should return the empty array
-
+  p find_even([1,3,5,7,9]) == []
   # If an even number appears N times in the input array,
   #   it should appear N times in the the array that find_even returns
+  p find_even([1,2,3,1,2,3]) == [2,2]
+  # other tests
+  p find_even([1,2,3]) == [2]
+  p find_even([1]) == []
+  p find_even([4]) == [4]
 end

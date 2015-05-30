@@ -16,6 +16,10 @@
 # Break it down as clearly as you can in your own head first.
 
 def mode(array)
+  counts = Hash.new(0)
+  array.each { |x| counts[x] += 1 }
+  result = counts.max_by { |k,v| v }
+  return result.first if result
 end
 
 if __FILE__ == $PROGRAM_NAME
@@ -49,4 +53,8 @@ if __FILE__ == $PROGRAM_NAME
   p mode(["a", "a", "a", "b"]) == "a"
   p mode(["b", "a", "a", "a"]) == "a"
   p mode(["a", "b", "a", "a"]) == "a"
+  # The mode of an empty array is nil
+  p mode([]) == nil
+  # Mix and match
+  p mode([1, 1, 'string', :sym, :sym, :sym]) == :sym
 end
