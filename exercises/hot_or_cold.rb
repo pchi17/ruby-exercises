@@ -23,7 +23,7 @@ def hot_or_cold(num_to_guess)
   # in this method while you're filling it out, so you can tell
   # everything is working as your expect.
 
-  while true
+  loop do
     guess = get_user_guess()   # "guess" is now an integer
 
     if guess < num_to_guess    # The guess is too cold

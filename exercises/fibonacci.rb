@@ -34,8 +34,7 @@ def fib(n)
   a, b, c = 0, 1, nil
   2.upto(n) do
     c = a + b
-    a = b
-    b = c
+    a, b = b, c
   end
   return c
 end

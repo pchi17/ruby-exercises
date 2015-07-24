@@ -2,27 +2,38 @@
 # Inputs:  A single non-negative integer +n+
 # Returns: true if +n+ is a Fibonacci number and false otherwise
 
-# Goal 1: Get this working with small Fibonacci numbers (N < 100)
-# Goal 2: Get this working with large Fibonacci numbers (N >= 2**15)
-# Goal 3: Get this working QUICKLY with large Fibonacci numbers.
-#
-# Here's a screenshot of the fastest implementation I know:
-#   http://cl.ly/image/1z3b3y41130b
-# This can calculate is_fibonacci?(fib(2**18)) in ~0.9 seconds.
-
 require "benchmark"
+require "bigdecimal"
 require_relative "fast_fib"
 
 BIG_FIB_INPUT = 2**18
 
-# Later, we'll want to generate large Fibonacci numbers. "fast_fib"
-# implements a very fast method to calculate the Nth Fibonacci number.
+# according to Binet's formula the nth Fibonacci number F(n) = (phi**n - (-phi)**(-n)) / sqrt(5)
+# as n increases, (-phi)**(-n) will approach 0, therefore F(n) is asymptotic to (phi**n) / sqrt(5)
+# rearrange the above equation and isolate n we get n ~ ln(F(n) * sqrt(5)) / ln(phi)
+# n should be very close to an integer for large n.
+# below is the first 10 Fibonacci numbers [index, number itself, n found by taking logs, and deviation from the closest integer]
+#   0  , 0/1, NA
+#   1  , 1 , 1.6722759381845549   : 0.3277240618154451
+#   2  , 1 , 1.6722759381845549   : 0.3277240618154451
+#   3  , 2 , 3.112696028597111    : 0.11269602859711103
+#   4  , 3 , 3.955287766773834    : 0.04471223322616602
+#   5  , 5 , 5.016827814553664    : 0.016827814553663778
+#   6  , 8 , 5.993536209422224    : 0.0064637905777757965
+#   7  , 13, 7.002463651555561    : 0.0024636515555611638
+#   8  , 21, 7.9990581974241834   : 0.0009418025758165527
+#   9  , 34, 9.000359623948889    : 0.0003596239488885544
+#   10 , 55, 9.999862619447256    : 0.0001373805527435934
+# it is clear that as n gets large, its deviation from an integer gets smaller, confirming the asymptotic behavior.
+# Note that 0 is an odd case because we cannot take the log of it, also, n rounds to 2 for F(1). Those are the only
+# 2 exceptions and will not affect the trend afterwards. The equation below will handle them.
 
+# this method finds n, rounds it to the nearest integer, and checks if the input is in fact F(n)
 def is_fibonacci?(n)
-  # Everything's a Fibonacci number!  Yay.
-  # Run the home-made test suite to see it fail:
-  #   ruby is_fibonacci.rb --test
-  return true
+  return true if n == 0 || n == 1
+  big = BigDecimal.new(n)
+  x = BigMath::log(big * Math::sqrt(5), 10) / Math::log((1 + Math::sqrt(5)) / 2)
+  return fast_fib(x.round) == n
 end
 
 # Print out some friendly usage information
@@ -88,17 +99,12 @@ def run_tests!
 end
 
 # Helper method for testing purposes
-def assert(test, msg)
-  if test
-    puts "[PASS] #{msg}"
-  else
-    puts "[FAIL] #{msg}"
-  end
-end
-
-# Helper method for testing purposes
 def assert_equal(expected, actual, msg)
-  assert(expected == actual, msg)
+  if expected == actual
+    puts "[PASS] : #{msg}"
+  else
+    puts "[FAIL] : #{msg}"
+  end
 end
 
 if __FILE__ == $PROGRAM_NAME
@@ -106,7 +112,9 @@ if __FILE__ == $PROGRAM_NAME
   when "-h", "--help", "", nil
     show_usage!
   when "-b", "--bench"
-    run_benchmarks!
+    # benchmarks is run at least 3 times.
+    freq = ARGV[1].to_i
+    freq > 3 ? run_benchmarks!(freq) : run_benchmarks!
   when "-t", "--test"
     run_tests!
   else

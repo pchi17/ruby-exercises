@@ -5,13 +5,12 @@
 # Die#roll will then return one of these labels, randomly.
 
 class Die
-  def initialize(labels)
-    # Hint: assign the labels argument to an instance variable
+  def initialize(*labels)
+    @labels = labels
   end
 
   def roll
-    # Hint: Use Array#sample to return a random label.
-    # See: http://www.ruby-doc.org/core-2.1.2/Array.html#method-i-sample
+    return @labels.sample
   end
 end
 
@@ -28,7 +27,7 @@ if __FILE__ == $PROGRAM_NAME
   #
   # letter_die.roll would return one of 'A', 'B', 'C', or 'D' at random
 
-  eight_ball = Die.new(["Yes", "No", "Unclear", "Absolutely", "Never", "Maybe"])
+  eight_ball = Die.new("Yes", "No", "Unclear", "Absolutely", "Never", "Maybe")
 
   loop do
     input = prompt("Ask the Magic 8-Ball a question (or type 'quit' to quit)")
@@ -36,7 +35,7 @@ if __FILE__ == $PROGRAM_NAME
     if input == "quit"
       puts "Goodbye!"
       break
-    elsif input.chars.last != "?"
+    elsif input.slice(-1) != "?"
       puts "The Magic 8-Ball says, \"That doesn't look like a question to me.\""
     else
       result = eight_ball.roll
