@@ -2,8 +2,9 @@
 # as I was looking for ways to accurately calculate high powers of "phi",
 # which is the furtherest thing from a rational number...
 
-# Defining a custom class to represent "phi" AKA the golden ratio (1 + sqrt(5))/2
-# Using Rational arithmetic to preserve the accuracy of computations of "phi"
+# Defining a custom class to represent "phi" AKA the golden ratio
+# (1 + sqrt(5))/2 ~= 1.618...
+# Using Rational arithmetic to preserve the accuracy of computations.
 # Key identities:
 #   phi**2 = 1 + phi
 #   1/phi = phi - 1 therefore 1 - phi = -(1/phi)
@@ -16,7 +17,7 @@ class PhiRational
   end
 
   def to_s
-    return "(#{a}) + (#{b})*phi"
+    return "(#{a}) + (#{b})phi"
   end
 
   def ==(other)
@@ -32,9 +33,10 @@ class PhiRational
   end
 
   def *(other)
-    c = other.a
-    d = other.b
-    return PhiRational.new(a * c + b * d, a * d + b * c + b * d)
+    return PhiRational.new(
+      a * other.a + b * other.b,
+      a * other.b + b * other.a + b * other.b
+    )
   end
 
   def /(other)
@@ -45,12 +47,12 @@ class PhiRational
     base   = self.dup
     result = PhiRational.new(1, 0)
     while n > 0
-      if n[0] == 1 # when the power is odd
+      if n.odd?
         result *= base
         n -= 1
       end
       base *= base
-      n /= 2 # eventually the power will be reduced to 1
+      n /= 2
     end
     return result
   end
@@ -72,7 +74,6 @@ class PhiRational
   end
 end
 
-# tests that all methods work properly
 if __FILE__ == $PROGRAM_NAME
   n = PhiRational.new(2,3)
   m = PhiRational.new(1,5)
