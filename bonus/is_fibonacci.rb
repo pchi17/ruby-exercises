@@ -8,30 +8,42 @@ require_relative "fast_fib"
 
 BIG_FIB_INPUT = 2**18
 
-# according to Binet's formula the nth Fibonacci number F(n) = (phi**n - (-phi)**(-n)) / sqrt(5)
-# as n increases, (-phi)**(-n) will approach 0 because |phi| > 1. F(n) is asymptotic to (phi**n) / sqrt(5)
-# rearrange the above equation and isolate n we get n ~= ln(F(n) * sqrt(5)) / ln(phi)
-# n should be very close to an integer as it gets large.
+=begin
+according to Binet's formula the nth Fibonacci number F(n) = (phi**n - (-phi)**(-n)) / sqrt(5)
+as n increases, (-phi)**(-n) will approach 0 because |phi| > 1. F(n) is asymptotic to (phi**n) / sqrt(5)
+rearrange the above equation and isolate n we get n ~= ln(F(n) * sqrt(5)) / ln(phi)
+n should be very close to an integer as it gets large.
 
-# below is the first 10 Fibonacci numbers
-#   n   f(n)  approximate of n       approximation's deviation from the closest integer
-#   0    0    NA
-#   1    1    1.6722759381845549     0.3277240618154451
-#   2    1    1.6722759381845549     0.3277240618154451
-#   3    2    3.112696028597111      0.11269602859711103
-#   4    3    3.955287766773834      0.04471223322616602
-#   5    5    5.016827814553664      0.016827814553663778
-#   6    8    5.993536209422224      0.0064637905777757965
-#   7    13   7.002463651555561      0.0024636515555611638
-#   8    21   7.9990581974241834     0.0009418025758165527
-#   9    34   9.000359623948889      0.0003596239488885544
-#   10   55   9.999862619447256      0.0001373805527435934
+below is the first 20 Fibonacci numbers
 
-# it is clear that as n gets large, the approximation's deviation from an integer gets smaller,
-# confirming the asymptotic behavior. Note that 0 is a special case because we cannot take the log of 0,
-# also, n rounds to 2 for F(1). Those are the only 2 exceptions and will not affect the trend afterwards.
+fib(n)   n     approximate of n          approximation's deviation from n
 
-# this method finds n, rounds it to the nearest integer, and checks if the input is in fact F(n)
+1        2     1.6722759381845549        0.32772406181544517
+2        3     3.112696028597111         0.11269602859711117
+3        4     3.955287766773834         0.044712233226166
+5        5     5.016827814553664         0.016827814553663972
+8        6     5.993536209422224         0.0064637905777761885
+13       7     7.002463651555561         0.0024636515555612475
+21       8     7.9990581974241834        0.0009418025758168884
+34       9     9.000359623948889         0.0003596239488894062
+55       10    9.999862619447256         0.00013738055274425126
+89       11    11.000052472304787        5.2472304787052674e-05
+144      12    11.999979957013338        2.0042986661563933e-05
+233      13    13.000007655688647        7.655688645914024e-06
+377      14    13.9999970757797          2.924220300985744e-06
+610      15    15.000001116951676        1.1169516765080856e-06
+987      16    15.999999573362263        4.2663773706761886e-07
+1597     17    17.00000016296109         1.629610894270236e-07
+2584     18    17.999999937754396        6.224560297268123e-08
+4181     19    19.0000000237757          2.3775701760037662e-08
+6765     20    19.999999990918486        9.081512621730928e-09
+
+it is clear that as n gets large, the approximation's deviation from the real n gets smaller,
+confirming the asymptotic behavior. Note that 0 is a special case because we cannot take the log of 0,
+also, n rounds to 2 for F(1). Those are the only 2 exceptions and will not affect the trend afterwards.
+=end
+
+# finds an approximate of n, rounds it to the nearest integer, and checks if the input is in fact F(n)
 def is_fibonacci?(n)
   return true if n == 0 || n == 1
   big = BigDecimal.new(n)
